@@ -12,22 +12,21 @@ response = requests.get(url, params=params)
 
 data = response.json()
 
-array_country = []
-array_year = []
-
 countries = []
+years = []
 rates = []
 for item in data['fact']:
+    rates.append(item['value']['numeric'])
     for dim in item['Dim']:
         if dim['category'] == 'COUNTRY':
-                array_country.append(dim['code'])
+                countries.append(dim['code'])
         if dim['category'] == 'YEAR':
-                array_year.append(dim['code'])
+                years.append(dim['code'])
 
-print(array_year)
+print(years)
 
-plt.plot(array_year)
+plt.plot(years, rates)
 plt.title('Yearly Data')
 plt.xlabel('Year')
-plt.ylabel('Value')
+plt.ylabel('rates')
 plt.show()
