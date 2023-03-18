@@ -1,33 +1,17 @@
-import requests, json
-import pandas as pd
-import matplotlib.pyplot as plt
 
-url = "https://apps.who.int/gho/athena/api/GHO/WHOSIS_000001.json"
+import requests
 
-params = {
-    "filter": "COUNTRY:*",
-}
+url = "https://ghoapi.azureedge.net/api/HIV_0000000001"
 
-response = requests.get(url, params=params)
+response = requests.get(url)
 
 data = response.json()
 
 countries = []
 years = []
 rates = []
-for item in data['fact']:
-    rates.append(item['value']['numeric'])
-    for dim in item['Dim']:
-        if dim['category'] == 'COUNTRY':
-                countries.append(dim['code'])
-        if dim['category'] == 'YEAR':
-                years.append(dim['code'])
 
-data = {'Country':countries, 'Year':years, 'Rate': rates}
-df = pd.DataFrame(data)
-
-plt.plot(years, rates)
-plt.title('Yearly Data')
-plt.xlabel('Year')
-plt.ylabel('rates')
-plt.show()
+for item in data['value']:
+    countries.append(item['SpatialDim'])
+    years.append(item['TimeDim'])
+    rates.append(item['NumericValue'])
