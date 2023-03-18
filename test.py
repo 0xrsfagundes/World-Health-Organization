@@ -23,7 +23,8 @@ for item in data['fact']:
         if dim['category'] == 'YEAR':
                 years.append(dim['code'])
 
-print(years)
+data = {'Country':countries, 'Year':years, 'Rate': rates}
+df = pd.DataFrame(data)
 
 plt.plot(years, rates)
 plt.title('Yearly Data')
